@@ -10,14 +10,14 @@
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #3b5998;
             min-height: 100vh;
             padding: 20px;
         }
-        
+
         .main-container {
             display: grid;
             grid-template-columns: 1fr 380px;
@@ -25,46 +25,76 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .game-container {
             background: white;
-            padding: 30px;
+            padding: 25px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        
+
         .sidebar {
             background: white;
             padding: 20px;
             border-radius: 15px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             height: fit-content;
-            max-height: 90vh;
-            overflow-y: auto;
         }
-        
+
         h1 {
             text-align: center;
             color: #333;
             margin-bottom: 10px;
+            font-size: 24px;
         }
-        
+
         .subtitle {
             text-align: center;
             color: #667eea;
             font-size: 14px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-weight: bold;
         }
-        
-        /* Opsi ukuran papan catur */
+
+        .player-display {
+            text-align: center;
+            background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            animation: pulse 1.5s infinite;
+        }
+
+        .solution-display {
+            text-align: center;
+            background: #667eea;
+            color: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: bold;
+            font-size: 14px;
+            display: none;
+        }
+
+        .info {
+            text-align: center;
+            font-size: 18px;
+            margin: 15px 0;
+            font-weight: bold;
+            color: #333;
+        }
+
         .size-controls {
             display: flex;
             justify-content: center;
             gap: 10px;
             margin: 15px 0;
         }
-        
+
         .size-btn {
             background: #e0e0e0;
             color: #333;
@@ -75,12 +105,34 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        
+
         .size-btn.active {
             background: #667eea;
             color: white;
         }
-        
+
+        .color-controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .color-btn.active {
+            border-color: #333;
+            transform: scale(1.1);
+        }
+
         .board {
             display: grid;
             grid-template-columns: repeat(8, 60px);
@@ -92,18 +144,24 @@
             padding: 0;
             border-radius: 8px;
             overflow: hidden;
+            width: calc(8 * 60px + 6px);
+            height: calc(8 * 60px + 6px);
         }
-        
+
         .board.small {
-            grid-template-columns: repeat(8, 50px);
-            grid-template-rows: repeat(8, 50px);
+            grid-template-columns: repeat(8, 45px);
+            grid-template-rows: repeat(8, 45px);
+            width: calc(8 * 45px + 6px);
+            height: calc(8 * 45px + 6px);
         }
-        
+
         .board.large {
-            grid-template-columns: repeat(8, 70px);
-            grid-template-rows: repeat(8, 70px);
+            grid-template-columns: repeat(8, 75px);
+            grid-template-rows: repeat(8, 75px);
+            width: calc(8 * 75px + 6px);
+            height: calc(8 * 75px + 6px);
         }
-        
+
         .cell {
             width: 100%;
             height: 100%;
@@ -114,58 +172,38 @@
             cursor: pointer;
             transition: all 0.2s;
             position: relative;
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
         }
-        
+
         .board.small .cell {
             font-size: 28px;
         }
-        
+
         .board.large .cell {
-            font-size: 40px;
+            font-size: 45px;
         }
-        
+
         .cell:hover {
-            filter: brightness(1.2);
+            filter: brightness(1.1);
         }
-        
-        /* Opsi warna papan catur */
-        .color-controls {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
-        }
-        
-        .color-btn {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            border: 2px solid transparent;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .color-btn.active {
-            border-color: #333;
-            transform: scale(1.1);
-        }
-        
-        /* Skema warna untuk papan catur */
+
+        .cell.light.classic { background-color: #f0d9b5; }
+        .cell.dark.classic { background-color: #b58863; }
+
         .cell.light.blue { background-color: #a8c5e6; }
         .cell.dark.blue { background-color: #4a6a8a; }
-        
-        .cell.light.green { background-color: #a8e6a8; }
-        .cell.dark.green { background-color: #4a8a4a; }
-        
-        .cell.light.red { background-color: #e6a8a8; }
-        .cell.dark.red { background-color: #8a4a4a; }
-        
-        .cell.light.purple { background-color: #d8a8e6; }
-        .cell.dark.purple { background-color: #7a4a8a; }
-        
-        .cell.light.brown { background-color: #e6d8a8; }
-        .cell.dark.brown { background-color: #8a7a4a; }
-        
+
+        .cell.light.green { background-color: #b8e6b8; }
+        .cell.dark.green { background-color: #5a8a5a; }
+
+        .cell.light.gray { background-color: #d0d0d0; }
+        .cell.dark.gray { background-color: #8a8a8a; }
+
+        .cell.light.purple { background-color: #d8b8e6; }
+        .cell.dark.purple { background-color: #7a5a8a; }
+
         .cell.attacked::before {
             content: '';
             position: absolute;
@@ -176,12 +214,12 @@
             background-color: rgba(255, 107, 107, 0.4);
             pointer-events: none;
         }
-        
+
         .controls {
             text-align: center;
             margin: 20px 0;
         }
-        
+
         button {
             background: #667eea;
             color: white;
@@ -193,28 +231,31 @@
             margin: 5px;
             transition: all 0.3s;
         }
-        
+
         button:hover {
             background: #5568d3;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
-        .info {
-            text-align: center;
-            font-size: 18px;
-            margin: 15px 0;
-            font-weight: bold;
+
+        .toggle-btn {
+            background: #51cf66;
+            margin-top: 10px;
+            width: 100%;
         }
-        
+
+        .toggle-btn:hover {
+            background: #40c057;
+        }
+
         .success {
             color: #51cf66;
         }
-        
+
         .warning {
             color: #ff6b6b;
         }
-        
+
         .solutions {
             max-height: 400px;
             overflow-y: auto;
@@ -223,7 +264,7 @@
             border-radius: 8px;
             margin-top: 20px;
         }
-        
+
         .solution-item {
             background: white;
             padding: 8px 12px;
@@ -236,27 +277,17 @@
             align-items: center;
             font-size: 12px;
         }
-        
+
         .solution-item:hover {
             background: #667eea;
             color: white;
             transform: translateX(5px);
         }
-        
-        .toggle-btn {
-            background: #51cf66;
-            margin-top: 10px;
-            width: 100%;
-        }
-        
-        .toggle-btn:hover {
-            background: #40c057;
-        }
-        
+
         .hidden {
             display: none;
         }
-        
+
         .sidebar h2 {
             color: #667eea;
             font-size: 18px;
@@ -264,7 +295,7 @@
             border-bottom: 2px solid #667eea;
             padding-bottom: 10px;
         }
-        
+
         .schedule-header {
             display: flex;
             justify-content: space-between;
@@ -272,7 +303,7 @@
             margin-bottom: 15px;
             gap: 10px;
         }
-        
+
         .month-display {
             background: #667eea;
             color: white;
@@ -283,7 +314,7 @@
             flex: 1;
             font-size: 14px;
         }
-        
+
         .nav-btn {
             background: #667eea;
             color: white;
@@ -294,18 +325,20 @@
             font-size: 16px;
             transition: all 0.3s;
         }
-        
+
         .nav-btn:hover {
             background: #5568d3;
             transform: scale(1.1);
         }
-        
+
         .schedule-list {
             display: flex;
             flex-direction: column;
             gap: 8px;
+            max-height: 400px;
+            overflow-y: auto;
         }
-        
+
         .schedule-item {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
@@ -314,29 +347,29 @@
             font-size: 13px;
             transition: all 0.3s;
         }
-        
+
         .schedule-item:hover {
             transform: translateX(5px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
-        
+
         .schedule-item .username {
             font-weight: bold;
             font-size: 14px;
             margin-bottom: 2px;
         }
-        
+
         .schedule-item .day {
             font-size: 11px;
             opacity: 0.9;
         }
-        
+
         .current {
             background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%) !important;
             box-shadow: 0 5px 15px rgba(81, 207, 102, 0.4);
             animation: pulse 1.5s infinite;
         }
-        
+
         @keyframes pulse {
             0%, 100% {
                 box-shadow: 0 5px 15px rgba(81, 207, 102, 0.4);
@@ -345,7 +378,7 @@
                 box-shadow: 0 5px 25px rgba(81, 207, 102, 0.7);
             }
         }
-        
+
         .legend {
             margin-top: 15px;
             padding-top: 15px;
@@ -353,45 +386,41 @@
             font-size: 11px;
             color: #666;
         }
-        
+
         .legend-item {
             margin: 5px 0;
         }
-        
+
         @media (max-width: 768px) {
             .main-container {
                 grid-template-columns: 1fr;
             }
-            
+
             .board {
-                grid-template-columns: repeat(8, 50px);
-                grid-template-rows: repeat(8, 50px);
+                width: 100%;
+                max-width: 480px;
+                height: auto;
+                aspect-ratio: 1 / 1;
             }
-            
+
             .board.small {
-                grid-template-columns: repeat(8, 40px);
-                grid-template-rows: repeat(8, 40px);
+                max-width: 360px;
             }
-            
+
             .board.large {
-                grid-template-columns: repeat(8, 60px);
-                grid-template-rows: repeat(8, 60px);
+                max-width: 600px;
             }
-            
+
             .cell {
                 font-size: 28px;
             }
-            
+
             .board.small .cell {
                 font-size: 22px;
             }
-            
+
             .board.large .cell {
                 font-size: 32px;
-            }
-            
-            .sidebar {
-                max-height: none;
             }
         }
     </style>
@@ -401,53 +430,48 @@
         <div class="game-container">
             <h1>♛ Soundness Puzzle ♛</h1>
             <div class="subtitle">Created by okeeajah</div>
-            <div id="currentPlayerDisplay" style="text-align: center; background: linear-gradient(135deg, #51cf66 0%, #37b24d 100%); color: white; padding: 12px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; font-size: 16px; animation: pulse 1.5s infinite;">
-                🎮 Loading...
-            </div>
-            <div id="solutionNumberDisplay" style="text-align: center; background: #667eea; color: white; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; font-size: 14px; display: none;">
-                📌 Solution: -
-            </div>
-            <div class="info" id="info">Place 8 queens on the chessboard!</div>
-            
-            <!-- Kontrol ukuran papan -->
+            <div class="player-display" id="currentPlayerDisplay">🎮 Now Role Echo</div>
+            <div class="solution-display" id="solutionNumberDisplay">📌 Solution: -</div>
+            <div class="info" id="info">Queens placed: 0/8</div>
+
             <div class="size-controls">
                 <button class="size-btn" onclick="changeBoardSize('small')">Small</button>
                 <button class="size-btn active" onclick="changeBoardSize('medium')">Medium</button>
                 <button class="size-btn" onclick="changeBoardSize('large')">Large</button>
             </div>
-            
-            <!-- Kontrol warna papan -->
+
             <div class="color-controls">
-                <div class="color-btn blue active" style="background: linear-gradient(135deg, #a8c5e6 0%, #4a6a8a 100%);" onclick="changeBoardColor('blue')"></div>
-                <div class="color-btn green" style="background: linear-gradient(135deg, #a8e6a8 0%, #4a8a4a 100%);" onclick="changeBoardColor('green')"></div>
-                <div class="color-btn red" style="background: linear-gradient(135deg, #e6a8a8 0%, #8a4a4a 100%);" onclick="changeBoardColor('red')"></div>
-                <div class="color-btn purple" style="background: linear-gradient(135deg, #d8a8e6 0%, #7a4a8a 100%);" onclick="changeBoardColor('purple')"></div>
-                <div class="color-btn brown" style="background: linear-gradient(135deg, #e6d8a8 0%, #8a7a4a 100%);" onclick="changeBoardColor('brown')"></div>
+                <div class="color-btn classic active" style="background: linear-gradient(135deg, #f0d9b5 0%, #b58863 100%);" onclick="changeBoardColor('classic')" title="Classic"></div>
+                <div class="color-btn blue" style="background: linear-gradient(135deg, #a8c5e6 0%, #4a6a8a 100%);" onclick="changeBoardColor('blue')" title="Blue"></div>
+                <div class="color-btn green" style="background: linear-gradient(135deg, #b8e6b8 0%, #5a8a5a 100%);" onclick="changeBoardColor('green')" title="Green"></div>
+                <div class="color-btn gray" style="background: linear-gradient(135deg, #d0d0d0 0%, #8a8a8a 100%);" onclick="changeBoardColor('gray')" title="Gray"></div>
+                <div class="color-btn purple" style="background: linear-gradient(135deg, #d8b8e6 0%, #7a5a8a 100%);" onclick="changeBoardColor('purple')" title="Purple"></div>
             </div>
-            
+
             <div class="board" id="board"></div>
-            
+
             <div class="controls">
                 <button onclick="reset()">Reset</button>
                 <button onclick="checkSolution()">Check Solution</button>
                 <button class="toggle-btn" onclick="toggleSolutions()">Provide a solution</button>
             </div>
-            
+
             <div class="solutions hidden" id="solutions">
                 <h3 style="margin-top: 0;">📋 92 Solutions (Click to apply):</h3>
                 <div id="solutionList"></div>
             </div>
         </div>
-        
+
         <div class="sidebar">
             <h2>📅 Game Arena Schedule</h2>
             <div class="schedule-header">
                 <button class="nav-btn" onclick="prevMonth()">◀</button>
-                <div class="month-display" id="monthDisplay"></div>
+                <div class="month-display" id="monthDisplay">October 2025</div>
                 <button class="nav-btn" onclick="nextMonth()">▶</button>
             </div>
-            <div class="schedule-list" id="scheduleList"></div>
-            
+            <div class="schedule-list" id="scheduleList">
+            </div>
+
             <div class="legend">
                 <div class="legend-item">
                     <strong style="color: #51cf66;">🟢 Green</strong> = Today
@@ -485,115 +509,26 @@
             [7,3,8,2,5,1,6,4],[7,4,2,8,6,1,3,5],[7,4,2,8,6,1,5,3],[7,5,3,1,6,8,2,4],
             [8,2,4,1,7,5,3,6],[8,2,5,3,1,7,4,6],[8,3,1,6,2,5,7,4],[8,4,1,3,6,2,7,5]
         ];
-        
-        const members = ['wava', 'echo', 'zippy', 'bloop', 'blu'];
-        let schedule = [];
-        let currentMonthView = new Date();
-        let currentSolutionNumber = null;
-        let currentBoardSize = 'medium';
-        let currentBoardColor = 'blue';
-        
-        function generateSchedule() {
-            schedule = [];
-            let startDate = new Date(2025, 9, 1);
-            let endDate = new Date(2026, 11, 31);
-            let memberIndex = 3;
-            
-            for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
-                schedule.push({
-                    username: members[memberIndex % members.length],
-                    date: new Date(d),
-                    dateStr: formatDate(new Date(d))
-                });
-                memberIndex++;
-            }
-        }
-        
-        function formatDate(date) {
-            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                           'July', 'August', 'September', 'October', 'November', 'December'];
-            const day = days[date.getDay()];
-            const dateNum = date.getDate();
-            const month = months[date.getMonth()];
-            const year = date.getFullYear();
-            return `${day}, ${dateNum} ${month} ${year}`;
-        }
-        
-        function loadSchedule() {
-            const listEl = document.getElementById('scheduleList');
-            listEl.innerHTML = '';
-            
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-            
-            const viewMonth = currentMonthView.getMonth();
-            const viewYear = currentMonthView.getFullYear();
-            
-            const monthSchedule = schedule.filter(item => {
-                const itemDate = new Date(item.date);
-                return itemDate.getMonth() === viewMonth && itemDate.getFullYear() === viewYear;
-            });
-            
-            if (monthSchedule.length === 0) {
-                listEl.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No schedule</div>';
-                return;
-            }
-            
-            monthSchedule.forEach(item => {
-                const schedItem = document.createElement('div');
-                schedItem.className = 'schedule-item';
-                
-                const itemDate = new Date(item.date);
-                itemDate.setHours(0, 0, 0, 0);
-                
-                if (itemDate.getTime() === today.getTime()) {
-                    schedItem.classList.add('current');
-                }
-                
-                schedItem.innerHTML = `
-                    <div class="username">${item.username.toUpperCase()}</div>
-                    <div class="day">${item.dateStr}</div>
-                `;
-                listEl.appendChild(schedItem);
-            });
-            
-            updateMonthDisplay();
-        }
-        
-        function updateMonthDisplay() {
-            const months = ['January', 'February', 'March', 'April', 'May', 'June', 
-                           'July', 'August', 'September', 'October', 'November', 'December'];
-            const month = months[currentMonthView.getMonth()];
-            const year = currentMonthView.getFullYear();
-            document.getElementById('monthDisplay').textContent = `${month} ${year}`;
-        }
-        
-        function prevMonth() {
-            currentMonthView.setMonth(currentMonthView.getMonth() - 1);
-            loadSchedule();
-        }
-        
-        function nextMonth() {
-            currentMonthView.setMonth(currentMonthView.getMonth() + 1);
-            loadSchedule();
-        }
-        
+
         let board = Array(8).fill(null).map(() => Array(8).fill(false));
         let queensCount = 0;
-        
+        let currentBoardSize = 'medium';
+        let currentBoardColor = 'classic';
+        let currentSolutionNumber = null;
+        let currentMonth = 9;
+        let currentYear = 2025;
+
         function initBoard() {
             const boardEl = document.getElementById('board');
             boardEl.innerHTML = '';
-            
-            // Set ukuran papan
+
             boardEl.className = 'board';
             if (currentBoardSize === 'small') {
                 boardEl.classList.add('small');
             } else if (currentBoardSize === 'large') {
                 boardEl.classList.add('large');
             }
-            
+
             for (let row = 0; row < 8; row++) {
                 for (let col = 0; col < 8; col++) {
                     const cell = document.createElement('div');
@@ -605,22 +540,27 @@
                 }
             }
         }
-        
+
         function toggleQueen(row, col) {
             board[row][col] = !board[row][col];
             queensCount += board[row][col] ? 1 : -1;
             updateBoard();
         }
-        
+
         function updateBoard() {
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => {
                 const row = parseInt(cell.dataset.row);
                 const col = parseInt(cell.dataset.col);
+
+                const colorClass = currentBoardColor;
+                cell.className = `cell ${(row + col) % 2 === 0 ? 'light' : 'dark'} ${colorClass}`;
+
                 cell.textContent = board[row][col] ? '♛' : '';
+
                 cell.classList.remove('attacked');
             });
-            
+
             if (queensCount > 0) {
                 for (let r = 0; r < 8; r++) {
                     for (let c = 0; c < 8; c++) {
@@ -630,10 +570,10 @@
                     }
                 }
             }
-            
+
             document.getElementById('info').textContent = `Queens placed: ${queensCount}/8`;
         }
-        
+
         function markAttackedSquares(queenRow, queenCol) {
             for (let i = 0; i < 8; i++) {
                 if (i !== queenCol && !board[queenRow][i]) {
@@ -645,7 +585,7 @@
                     cell.classList.add('attacked');
                 }
             }
-            
+
             for (let i = -7; i <= 7; i++) {
                 if (i !== 0) {
                     const r1 = queenRow + i;
@@ -654,7 +594,7 @@
                         const cell = document.querySelector(`[data-row="${r1}"][data-col="${c1}"]`);
                         cell.classList.add('attacked');
                     }
-                    
+
                     const r2 = queenRow + i;
                     const c2 = queenCol - i;
                     if (r2 >= 0 && r2 < 8 && c2 >= 0 && c2 < 8 && !board[r2][c2]) {
@@ -664,13 +604,13 @@
                 }
             }
         }
-        
+
         function checkSolution() {
             if (queensCount !== 8) {
                 document.getElementById('info').innerHTML = `<span class="warning">You need to place exactly 8 queens!</span>`;
                 return;
             }
-            
+
             for (let r = 0; r < 8; r++) {
                 for (let c = 0; c < 8; c++) {
                     if (board[r][c]) {
@@ -689,28 +629,28 @@
                     }
                 }
             }
-            
+
             document.getElementById('info').innerHTML = `<span class="success">✅ Correct! Valid solution!</span>`;
         }
-        
+
         function reset() {
             board = Array(8).fill(null).map(() => Array(8).fill(false));
             queensCount = 0;
             currentSolutionNumber = null;
             document.getElementById('solutionNumberDisplay').style.display = 'none';
             updateBoard();
-            document.getElementById('info').textContent = 'Place 8 queens on the chessboard!';
+            document.getElementById('info').innerHTML = 'Queens placed: 0/8';
         }
-        
+
         function toggleSolutions() {
             const solutionsEl = document.getElementById('solutions');
             solutionsEl.classList.toggle('hidden');
-            
+
             if (!solutionsEl.classList.contains('hidden') && document.getElementById('solutionList').children.length === 0) {
                 loadSolutions();
             }
         }
-        
+
         function loadSolutions() {
             const listEl = document.getElementById('solutionList');
             solutions.forEach((sol, idx) => {
@@ -721,7 +661,7 @@
                 listEl.appendChild(item);
             });
         }
-        
+
         function applySolution(solution, solutionNum) {
             reset();
             solution.forEach((col, row) => {
@@ -734,62 +674,97 @@
             updateBoard();
             document.getElementById('info').innerHTML = `<span class="success">Solution applied! Click "Check Solution" to verify.</span>`;
         }
-        
-        // Fungsi untuk mengubah ukuran papan
+
         function changeBoardSize(size) {
             currentBoardSize = size;
-            
-            // Update tombol aktif
+
             document.querySelectorAll('.size-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
-            // Render ulang papan
+
             initBoard();
             updateBoard();
         }
-        
-        // Fungsi untuk mengubah warna papan
+
         function changeBoardColor(color) {
             currentBoardColor = color;
-            
-            // Update tombol aktif
+
             document.querySelectorAll('.color-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
-            // Update warna sel
+
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => {
-                cell.className = cell.className.replace(/blue|green|red|purple|brown/g, color);
+                const row = parseInt(cell.dataset.row);
+                const col = parseInt(cell.dataset.col);
+                cell.className = `cell ${(row + col) % 2 === 0 ? 'light' : 'dark'} ${color}`;
+                if (board[row][col]) {
+                    cell.textContent = '♛';
+                }
             });
         }
-        
-        generateSchedule();
-        initBoard();
-        loadSchedule();
-        
-        function updateCurrentPlayer() {
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {
+                currentMonth = 11;
+                currentYear--;
+            }
+            updateSchedule();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {
+                currentMonth = 0;
+                currentYear++;
+            }
+            updateSchedule();
+        }
+
+        function updateSchedule() {
+            const monthNames = ["January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"];
+            
+            document.getElementById('monthDisplay').textContent = `${monthNames[currentMonth]} ${currentYear}`;
+            
+            const scheduleList = document.getElementById('scheduleList');
+            scheduleList.innerHTML = '';
+            
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+            const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            const players = ["BLOOP", "BLU", "WAVA", "ECHO", "ZIPPY"];
+            
             const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
             
-            const currentSchedule = schedule.find(item => {
-                const itemDate = new Date(item.date);
-                itemDate.setHours(0, 0, 0, 0);
-                return itemDate.getTime() === today.getTime();
-            });
-            
-            const playerDisplay = document.getElementById('currentPlayerDisplay');
-            if (currentSchedule) {
-                playerDisplay.innerHTML = `🎮 Now Role ${currentSchedule.username.charAt(0).toUpperCase() + currentSchedule.username.slice(1)}`;
-            } else {
-                playerDisplay.innerHTML = '🎮 No player today';
+            for (let day = 1; day <= daysInMonth; day++) {
+                const date = new Date(currentYear, currentMonth, day);
+                const dayName = dayNames[date.getDay()];
+                const playerIndex = (day - 1) % players.length;
+                const player = players[playerIndex];
+                
+                const scheduleItem = document.createElement('div');
+                scheduleItem.className = 'schedule-item';
+                
+                if (isCurrentMonth && day === today.getDate()) {
+                    scheduleItem.classList.add('current');
+                }
+                
+                scheduleItem.innerHTML = `
+                    <div class="username">${player}</div>
+                    <div class="day">${dayName}, ${day} ${monthNames[currentMonth]} ${currentYear}</div>
+                `;
+                
+                scheduleList.appendChild(scheduleItem);
             }
         }
-        
-        updateCurrentPlayer();
+
+        initBoard();
+        updateSchedule();
+        changeBoardColor('classic');
     </script>
 </body>
 </html>
