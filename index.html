@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Soundness Puzzle - Discord Game Arena</title>
     <style>
+        /* CSS tetap sama seperti sebelumnya */
         * {
             margin: 0;
             padding: 0;
@@ -770,6 +771,29 @@
             updateSchedule();
         }
 
+        // Fungsi untuk menghitung total hari dari tanggal referensi
+        function getTotalDaysFromReference(date) {
+            const referenceDate = new Date(2025, 9, 1); // 1 Oktober 2025 (BLOOP)
+            const diffTime = date - referenceDate;
+            const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays;
+        }
+
+        // Fungsi untuk mendapatkan pemain berdasarkan tanggal
+        function getPlayerForDate(date) {
+            const players = ["BLOOP", "BLU", "WAVA", "ECHO", "ZIPPY"];
+            const totalDays = getTotalDaysFromReference(date);
+            
+            // Handle kasus tanggal sebelum referensi (hasil negatif)
+            // Gunakan modulo positif
+            let playerIndex = totalDays % players.length;
+            if (playerIndex < 0) {
+                playerIndex += players.length;
+            }
+            
+            return players[playerIndex];
+        }
+
         function updateSchedule() {
             const monthNames = ["January", "February", "March", "April", "May", "June",
                 "July", "August", "September", "October", "November", "December"];
@@ -781,22 +805,19 @@
             
             const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
             const dayNames = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-            const players = ["BLOOP", "BLU", "WAVA", "ECHO", "ZIPPY"];
             
             const today = new Date();
             const isCurrentMonth = today.getMonth() === currentMonth && today.getFullYear() === currentYear;
             
-            if (isCurrentMonth) {
-                const playerIndex = (today.getDate() - 1) % players.length;
-                const currentPlayer = players[playerIndex];
-                document.getElementById('currentPlayerDisplay').textContent = `🎮 Now Role ${currentPlayer}`;
-            }
+            // Update current player display
+            const currentPlayer = getPlayerForDate(today);
+            document.getElementById('currentPlayerDisplay').textContent = `🎮 Now Role ${currentPlayer}`;
             
             for (let day = 1; day <= daysInMonth; day++) {
                 const date = new Date(currentYear, currentMonth, day);
                 const dayName = dayNames[date.getDay()];
-                const playerIndex = (day - 1) % players.length;
-                const player = players[playerIndex];
+                
+                const player = getPlayerForDate(date);
                 
                 const scheduleItem = document.createElement('div');
                 scheduleItem.className = 'schedule-item';
